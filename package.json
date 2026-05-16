@@ -22,6 +22,6 @@
   },
   "peerDependencies": {
     "typescript": "^6.0.3",
-    "@manyducks.co/dolla": "^4.0.0"
+    "@manyducks.co/dolla": "^4.1.0"
   }
 }

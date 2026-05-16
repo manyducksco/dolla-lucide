@@ -51,9 +51,30 @@ for (const file of iconFiles) {
 // Write index file.
 await Bun.write(
   resolve(tmpPath, "index.tsx"),
-  [...imports.entries()]
-    .map(([name, path]) => `export { ${name} } from "${path}";`)
-    .join("\n"),
+  `
+import type { Context, MaybeGetter, Renderable } from "@manyducks.co/dolla";
+
+${[...imports.entries()]
+  .map(([name, path]) => `export { ${name} } from "${path}";`)
+  .join("\n")}
+
+export type LucideDefaultsProps = {
+  size?: MaybeGetter<string | number>;
+  stroke?: MaybeGetter<string>;
+  strokeWidth?: MaybeGetter<number>;
+  children: any;
+};
+
+/**
+ * Sets default icon props for this context.
+ */
+export function LucideDefaults(props: LucideDefaultsProps, c: Context) {
+  const parent = c["${LUCIDE_ICON_OPTIONS}"];
+  const {children, ...options} = props;
+  c["${LUCIDE_ICON_OPTIONS}"] = Object.assign(parent ? Object.create(parent) : {}, options);
+  return children;
+}
+`,
 );
 
 type IconViewOptions = {
@@ -87,18 +108,4 @@ export function ${options.name}(this: Context, props: ${options.name}Props) {
   );
 }
 `;
-}
-
-type LucideIconOptions = {
-  size?: MaybeGetter<string | number>;
-  stroke?: MaybeGetter<string>;
-  strokeWidth?: MaybeGetter<number>;
-};
-
-/**
- * Sets default icon props for this context.
- */
-export function addLucideOptions(c: Context, props: LucideIconOptions) {
-  const parent = c[LUCIDE_ICON_OPTIONS];
-  c[LUCIDE_ICON_OPTIONS] = Object.assign(Object.create(parent), props);
 }
