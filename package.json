@@ -1,6 +1,7 @@
 {
   "name": "@manyducks.co/dolla-lucide",
-  "version": "0.0.2",
+  "version": "1.73.0",
+  "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -22,6 +23,6 @@
   },
   "peerDependencies": {
     "typescript": "^6.0.3",
-    "@manyducks.co/dolla": "^4.1.0"
+    "@manyducks.co/dolla": "^6.0.0"
   }
 }
